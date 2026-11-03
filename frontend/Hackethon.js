@@ -1,4 +1,5 @@
-const PYTHON_SOURCE_URL = new URL('./armorcode_cli.py', document.currentScript.src);
+const API_BASE = window.location.port === '8000' ? '' : 'http://127.0.0.1:8000';
+const PYTHON_SOURCE_URL = new URL('/armorcode_cli.py', API_BASE || window.location.origin);
 
 /**
          * ZERO-WIDTH UNICODE CONSTANTS
@@ -15,7 +16,6 @@ const PYTHON_SOURCE_URL = new URL('./armorcode_cli.py', document.currentScript.s
          * 0. BACKEND API CLIENT & USER AUTHENTICATION STATE
          * ==============================================================
          */
-        const API_BASE = window.location.port === '8000' ? '' : 'http://127.0.0.1:8000';
         let currentUser = null;
         let authToken = null;
         let pendingOwnershipState = {
@@ -1683,7 +1683,7 @@ GEMMA 3 1B (gemma3:1b) — 3-BULLET EXECUTIVE VERIFICATION BRIEF FOR JUDGES
                 );
             } catch (error) {
                 console.error('Unable to load armorcode_cli.py:', error);
-                showToast('Could not load armorcode_cli.py. Keep it next to hackethon.html.', 'rose');
+                showToast('Could not load armorcode_cli.py from the backend. Start the backend and retry.', 'rose');
                 return null;
             }
         }
@@ -1691,7 +1691,7 @@ GEMMA 3 1B (gemma3:1b) — 3-BULLET EXECUTIVE VERIFICATION BRIEF FOR JUDGES
         function renderPythonScript() {
             generatePythonCliCode().then(code => {
                 document.getElementById('pythonCodeBlock').textContent =
-                    code || 'Python source unavailable. Keep armorcode_cli.py next to hackethon.html.';
+                    code || 'Python source unavailable. Start the backend and retry.';
             });
         }
 
